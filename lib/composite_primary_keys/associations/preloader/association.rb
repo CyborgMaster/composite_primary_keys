@@ -63,9 +63,8 @@ module ActiveRecord
           # }
           @preloaded_records.map { |record|
             key = Array(association_key_name).map do |key_name|
-              record[key_name]
+              record[key_name].to_s.downcase
             end.join(CompositePrimaryKeys::ID_SEP)
-
             [record, key]
           }
         end
@@ -76,7 +75,7 @@ module ActiveRecord
                                  # CPK
                                  # owner[owner_key_name].to_s
                                  Array(owner_key_name).map do |key_name|
-                                   owner[key_name]
+                                   owner[key_name].to_s.downcase
                                  end.join(CompositePrimaryKeys::ID_SEP)
                                end
                              else
@@ -84,11 +83,11 @@ module ActiveRecord
                                  # CPK
                                  # owner[owner_key_name]
                                  Array(owner_key_name).map do |key_name|
-                                   owner[key_name]
+                                   owner[key_name].to_s.downcase
                                  end.join(CompositePrimaryKeys::ID_SEP)
                                end
                              end
-                             
+
         end
       end
     end
