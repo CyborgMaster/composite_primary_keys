@@ -62,13 +62,18 @@ module ActiveRecord
           # CPK
           if key.is_a?(Array)
             id = Array(key).map do |column_alias|
-              value = row[column_alias]
+              row[column_alias]
             end
             # At least the first value in the key has to be set.  Should we require all values to be set?
-            next if id.first.nil?
-          else
+            id = nil if id.first.nil?
+          else # original
             id = row[key]
-            next if id.nil?
+          end
+
+          if id.nil? # duplicating this so it is clear what remained unchanged from the original
+            nil_association = ar_parent.association(node.reflection.name)
+            nil_association.loaded!
+            next
           end
 
           model = seen[parent.base_klass][primary_id][node.base_klass][id]
