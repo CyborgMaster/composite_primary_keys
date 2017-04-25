@@ -43,6 +43,8 @@ module ActiveRecord
       end
 
       def construct(ar_parent, parent, row, rs, seen, model_cache, aliases)
+        return if ar_parent.nil?
+
         primary_id  = ar_parent.id
 
         parent.children.each do |node|
